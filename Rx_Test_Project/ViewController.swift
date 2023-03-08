@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         setupRx()
+        Rx()
     }
     
     // MARK: - basic Rx Code
@@ -69,5 +70,25 @@ class ViewController: UIViewController {
             .bind(to: textField.rx.text, lable.rx.text)
             .disposed(by: disposeBag)
     }
+    
+    var Asubject = BehaviorSubject<String>(value: "A")
+        
+    func Rx() {
+        Asubject
+            .take(1)
+            .subscribe(onNext: { [weak self] in
+                print($0)
+                self?.Asubject.onNext($0 + "B")
+            })
+            .disposed(by: disposeBag)
+        
+        Asubject
+            .subscribe(onNext: { print($0) })
+            .disposed(by: disposeBag)
+    }
 }
+
+
+
+
 
